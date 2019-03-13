@@ -7,7 +7,7 @@ namespace SampleFramework1
     {
         // Properties
 
-        public bool IsVisible => Driver.Title.Contains("Sample Application Lifecycle - Sprint 1 - Ultimate QA");
+        public bool IsVisible => Driver.Title.Contains("Sample Application Lifecycle - Sprint 2 - Ultimate QA");
 
         public IWebElement FirstNameField => Driver.FindElement(By.Name("firstname"));
 
