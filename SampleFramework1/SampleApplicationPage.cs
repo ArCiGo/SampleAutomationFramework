@@ -11,6 +11,8 @@ namespace SampleFramework1
 
         public IWebElement FirstNameField => Driver.FindElement(By.Name("firstname"));
 
+        public IWebElement LastNameField => Driver.FindElement(By.Name("lastname"));
+
         public IWebElement SubmitButton => Driver.FindElement(By.XPath("//*[@type='submit']"));
 
         // Constructor
@@ -21,12 +23,13 @@ namespace SampleFramework1
 
         public void GoTo()
         {
-            Driver.Navigate().GoToUrl("https://www.ultimateqa.com/sample-application-lifecycle-sprint-1/");
+            Driver.Navigate().GoToUrl("https://www.ultimateqa.com/sample-application-lifecycle-sprint-2/");
         }
 
-        public UltimateQAHomePage FillOutFormAndSubmit(string firstName)
+        public UltimateQAHomePage FillOutFormAndSubmit(TestUser user)
         {
-            FirstNameField.SendKeys(firstName);
+            FirstNameField.SendKeys(user.FirstName);
+            LastNameField.SendKeys(user.LastName);
             SubmitButton.Submit();
 
             return new UltimateQAHomePage(Driver);

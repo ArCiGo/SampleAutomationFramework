@@ -43,6 +43,7 @@
     <Compile Include="SampleApplicationPage.cs" />
     <Compile Include="UltimateQAHomePage.cs" />
     <Compile Include="BaseSampleApplicationPage.cs" />
+    <Compile Include="TestUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

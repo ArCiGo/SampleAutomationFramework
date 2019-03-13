@@ -18,11 +18,37 @@ namespace SampleFramework1
         public void Test1()
         {
             Driver = GetChromeDriver();
+
             var sampleApplicationPage = new SampleApplicationPage(Driver);
+            var testUser = new TestUser();
+
+            testUser.FirstName = "Nikolay";
+            testUser.LastName = "BLahzah";
+
             sampleApplicationPage.GoTo();
             Assert.IsTrue(sampleApplicationPage.IsVisible);
 
-            var ultimateQAHomePage = sampleApplicationPage.FillOutFormAndSubmit("Nikolay");
+            var ultimateQAHomePage = sampleApplicationPage.FillOutFormAndSubmit(testUser);
+
+            Thread.Sleep(2000);
+            Assert.IsTrue(ultimateQAHomePage.IsVisible);
+        }
+
+        [Test()]
+        public void PretendTestNumber2()
+        {
+            Driver = GetChromeDriver();
+
+            var sampleApplicationPage = new SampleApplicationPage(Driver);
+            var testUser = new TestUser();
+
+            testUser.FirstName = "Nikolay";
+            testUser.LastName = "BLahzah";
+
+            sampleApplicationPage.GoTo();
+            Assert.IsTrue(sampleApplicationPage.IsVisible);
+
+            var ultimateQAHomePage = sampleApplicationPage.FillOutFormAndSubmit(testUser);
 
             Thread.Sleep(2000);
             Assert.IsTrue(ultimateQAHomePage.IsVisible);
