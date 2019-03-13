@@ -39,12 +39,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SampleApplicationOne.cs" />
+    <Compile Include="SampleApplicationOneTests.cs" />
     <Compile Include="SampleApplicationPage.cs" />
     <Compile Include="UltimateQAHomePage.cs" />
+    <Compile Include="BaseSampleApplicationPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="chromedriver">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Selenium.WebDriver.ChromeDriver.72.0.3626.69\build\Selenium.WebDriver.ChromeDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.ChromeDriver.72.0.3626.69\build\Selenium.WebDriver.ChromeDriver.targets')" />

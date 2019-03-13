@@ -1,26 +1,35 @@
 ﻿using System;
+using OpenQA.Selenium;
 
 namespace SampleFramework1
 {
-    public class SampleApplicationPage
+    public class SampleApplicationPage : BaseSampleApplicationPage
     {
-        private object driver;
+        // Properties
 
-        public SampleApplicationPage(object driver)
-        {
-            this.driver = driver;
-        }
+        public bool IsVisible => Driver.Title.Contains("Sample Application Lifecycle - Sprint 1 - Ultimate QA");
 
-        public bool IsVisible { get; internal set; }
+        public IWebElement FirstNameField => Driver.FindElement(By.Name("firstname"));
+
+        public IWebElement SubmitButton => Driver.FindElement(By.XPath("//*[@type='submit']"));
+
+        // Constructor
+
+        public SampleApplicationPage(IWebDriver driver) : base(driver) { }
+
+        // Methods
 
         public void GoTo()
         {
-            throw new NotImplementedException();
+            Driver.Navigate().GoToUrl("https://www.ultimateqa.com/sample-application-lifecycle-sprint-1/");
         }
 
-        public UltimateQAHomePage FillOutFormAndSubmit(string v)
+        public UltimateQAHomePage FillOutFormAndSubmit(string firstName)
         {
-            throw new NotImplementedException();
+            FirstNameField.SendKeys(firstName);
+            SubmitButton.Submit();
+
+            return new UltimateQAHomePage(Driver);
         }
     }
 }
