@@ -14,22 +14,27 @@ namespace SampleFramework1
     {
         private IWebDriver Driver { get; set; }
 
-        [Test()]
-        public void Test1()
+        private TestUser TheTestUser { get; set; }
+
+        [SetUp]
+        public void SetupForEverySingleTestMethod()
         {
             Driver = GetChromeDriver();
 
+            TheTestUser = new TestUser();
+
+            TheTestUser.FirstName = "Nikolay";
+            TheTestUser.LastName = "BLahzah";
+        }
+
+        [Test()]
+        public void Test1()
+        {
             var sampleApplicationPage = new SampleApplicationPage(Driver);
-            var testUser = new TestUser();
-
-            testUser.FirstName = "Nikolay";
-            testUser.LastName = "BLahzah";
-
             sampleApplicationPage.GoTo();
             Assert.IsTrue(sampleApplicationPage.IsVisible);
 
-            var ultimateQAHomePage = sampleApplicationPage.FillOutFormAndSubmit(testUser);
-
+            var ultimateQAHomePage = sampleApplicationPage.FillOutFormAndSubmit(TheTestUser);
             Thread.Sleep(2000);
             Assert.IsTrue(ultimateQAHomePage.IsVisible);
         }
@@ -37,25 +42,17 @@ namespace SampleFramework1
         [Test()]
         public void PretendTestNumber2()
         {
-            Driver = GetChromeDriver();
-
             var sampleApplicationPage = new SampleApplicationPage(Driver);
-            var testUser = new TestUser();
-
-            testUser.FirstName = "Nikolay";
-            testUser.LastName = "BLahzah";
-
             sampleApplicationPage.GoTo();
             Assert.IsTrue(sampleApplicationPage.IsVisible);
 
-            var ultimateQAHomePage = sampleApplicationPage.FillOutFormAndSubmit(testUser);
-
+            var ultimateQAHomePage = sampleApplicationPage.FillOutFormAndSubmit(TheTestUser);
             Thread.Sleep(2000);
-            Assert.IsTrue(ultimateQAHomePage.IsVisible);
+            Assert.IsFalse(!ultimateQAHomePage.IsVisible);
         }
 
         [TearDown]
-        public void CleanUp()
+        public void CleanUpAfterEveryTestMethod()
         {
             Driver.Close();
             Driver.Quit();
