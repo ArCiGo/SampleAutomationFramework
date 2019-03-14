@@ -8,18 +8,29 @@ using System.Threading;
 
 namespace SampleFramework1
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("SampleApplicationOne")]
     public class SampleApplicationOneTests
     {
+        // Properties
+
         private IWebDriver Driver { get; set; }
 
         private TestUser TheTestUser { get; set; }
+
+        private TestUser EmergencyContactUser { get; set; }
+
+        private SampleApplicationPage SampleAppPage { get; set; }
+
+        /*
+         * SetUp
+         */
 
         [SetUp]
         public void SetupForEverySingleTestMethod()
         {
             Driver = GetChromeDriver();
+            SampleAppPage = new SampleApplicationPage(Driver);
 
             TheTestUser = new TestUser();
 
@@ -27,29 +38,54 @@ namespace SampleFramework1
             TheTestUser.LastName = "BLahzah";
         }
 
-        [Test()]
+        /*
+         * Tests
+         */
+
+        [Test]
+        [Description("Validate that user is able to fill out the form successfully using valid data")]
         public void Test1()
         {
-            var sampleApplicationPage = new SampleApplicationPage(Driver);
-            sampleApplicationPage.GoTo();
-            Assert.IsTrue(sampleApplicationPage.IsVisible);
+            SetGenderTypes(Gender.Female, Gender.Female);
 
-            var ultimateQAHomePage = sampleApplicationPage.FillOutFormAndSubmit(TheTestUser);
+            SampleAppPage.GoTo();
+            Assert.IsTrue(SampleAppPage.IsVisible);
+
+            //SampleAppPage.FillOutEmergencyContactForm(EmergencyContactUser);
+
+            var ultimateQAHomePage = SampleAppPage.FillOutPrimaryContactFormFormAndSubmit(TheTestUser);
             Thread.Sleep(2000);
             Assert.IsTrue(ultimateQAHomePage.IsVisible);
         }
 
-        [Test()]
+        [Test]
         public void PretendTestNumber2()
         {
-            var sampleApplicationPage = new SampleApplicationPage(Driver);
-            sampleApplicationPage.GoTo();
-            Assert.IsTrue(sampleApplicationPage.IsVisible);
+            SampleAppPage.GoTo();
+            Assert.IsTrue(SampleAppPage.IsVisible);
 
-            var ultimateQAHomePage = sampleApplicationPage.FillOutFormAndSubmit(TheTestUser);
+            var ultimateQAHomePage = SampleAppPage.FillOutPrimaryContactFormFormAndSubmit(TheTestUser);
             Thread.Sleep(2000);
             Assert.IsFalse(!ultimateQAHomePage.IsVisible);
         }
+
+        [Test]
+        [Description("Validate that when selection the Other gender type, the form is submitted successfully")]
+        public void Test3()
+        {
+            SetGenderTypes(Gender.Other, Gender.Other);
+
+            SampleAppPage.GoTo();
+            Assert.IsTrue(SampleAppPage.IsVisible);
+
+            var ultimateQAHomePage = SampleAppPage.FillOutPrimaryContactFormFormAndSubmit(TheTestUser);
+            Thread.Sleep(2000);
+            Assert.IsFalse(!ultimateQAHomePage.IsVisible);
+        }
+
+        /*
+         * Cleanup
+         */
 
         [TearDown]
         public void CleanUpAfterEveryTestMethod()
@@ -58,11 +94,25 @@ namespace SampleFramework1
             Driver.Quit();
         }
 
+        /*
+         * Driver
+         */
+
         private IWebDriver GetChromeDriver()
         {
             var outputDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             return new ChromeDriver(outputDirectory);
+        }
+
+        /*
+         * Methods
+         */
+
+        private void SetGenderTypes(Gender primaryContact, Gender energencyContact)
+        {
+            TheTestUser.GenderType = primaryContact;
+            EmergencyContactUser = EmergencyContactUser;
         }
     }
 }
