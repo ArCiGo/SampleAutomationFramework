@@ -1,11 +1,14 @@
 ﻿using System;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 
 namespace SampleFramework1
 {
     public class SampleApplicationPage : BaseSampleApplicationPage
     {
-        // Properties
+        /*
+         * Properties
+         * */
 
         public bool IsVisible => Driver.Title.Contains("Sample Application Lifecycle - Sprint 4 - Ultimate QA");
 
@@ -23,11 +26,21 @@ namespace SampleFramework1
 
         public IWebElement SubmitButton => Driver.FindElement(By.XPath("//*[@type='submit']"));
 
-        // Constructor
+        public IWebElement OtherGenderRadioButton => Driver.FindElement(By.Id("radio1-0"));
+
+        public IWebElement OtherGenderButtonForEmergencyContact => Driver.FindElement(By.Id("radio2-0"));
+
+        private Actions WebDriverActions => new Actions(Driver);
+
+        /*
+         * Constructor
+         * */
 
         public SampleApplicationPage(IWebDriver driver) : base(driver) { }
 
-        // Methods
+        /*
+         * Methods
+         * */
 
         public void GoTo()
         {
@@ -58,9 +71,12 @@ namespace SampleFramework1
                 case Gender.Male:
                     break;
                 case Gender.Female:
-                    FemaleGenderRadioButton.Click();
+                    WebDriverActions.MoveToElement(FemaleGenderRadioButton).Click();
+                    //FemaleGenderRadioButton.Click();
                     break;
                 case Gender.Other:
+                    WebDriverActions.MoveToElement(OtherGenderRadioButton).Click();
+                    //OtherGenderRadioButton.Click();
                     break;
                 default:
                     break;
@@ -77,6 +93,7 @@ namespace SampleFramework1
                     FemaleGenderRadioButtonForEmergencyContact.Click();
                     break;
                 case Gender.Other:
+                    OtherGenderButtonForEmergencyContact.Click();
                     break;
                 default:
                     break;

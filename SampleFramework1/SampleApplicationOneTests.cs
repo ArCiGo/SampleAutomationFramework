@@ -12,14 +12,13 @@ namespace SampleFramework1
     [Category("SampleApplicationOne")]
     public class SampleApplicationOneTests
     {
-        // Properties
+        /*
+         * Properties
+         */
 
         private IWebDriver Driver { get; set; }
-
         private TestUser TheTestUser { get; set; }
-
         private TestUser EmergencyContactUser { get; set; }
-
         private SampleApplicationPage SampleAppPage { get; set; }
 
         /*
@@ -30,12 +29,20 @@ namespace SampleFramework1
         public void SetupForEverySingleTestMethod()
         {
             Driver = GetChromeDriver();
+            // Driver.Manage().Window.Maximize();
             SampleAppPage = new SampleApplicationPage(Driver);
 
-            TheTestUser = new TestUser();
+            TheTestUser = new TestUser
+            {
+                FirstName = "Nikolay",
+                LastName = "BLahzah"
+            };
 
-            TheTestUser.FirstName = "Nikolay";
-            TheTestUser.LastName = "BLahzah";
+            EmergencyContactUser = new TestUser()
+            {
+                FirstName = "Emergency First name",
+                LastName = "Emergency Last name"
+            };
         }
 
         /*
@@ -51,8 +58,7 @@ namespace SampleFramework1
             SampleAppPage.GoTo();
             Assert.IsTrue(SampleAppPage.IsVisible);
 
-            //SampleAppPage.FillOutEmergencyContactForm(EmergencyContactUser);
-
+            SampleAppPage.FillOutEmergencyContactForm(EmergencyContactUser);
             var ultimateQAHomePage = SampleAppPage.FillOutPrimaryContactFormFormAndSubmit(TheTestUser);
             Thread.Sleep(2000);
             Assert.IsTrue(ultimateQAHomePage.IsVisible);
@@ -64,6 +70,7 @@ namespace SampleFramework1
             SampleAppPage.GoTo();
             Assert.IsTrue(SampleAppPage.IsVisible);
 
+            SampleAppPage.FillOutEmergencyContactForm(EmergencyContactUser);
             var ultimateQAHomePage = SampleAppPage.FillOutPrimaryContactFormFormAndSubmit(TheTestUser);
             Thread.Sleep(2000);
             Assert.IsFalse(!ultimateQAHomePage.IsVisible);
@@ -78,6 +85,7 @@ namespace SampleFramework1
             SampleAppPage.GoTo();
             Assert.IsTrue(SampleAppPage.IsVisible);
 
+            SampleAppPage.FillOutEmergencyContactForm(EmergencyContactUser);
             var ultimateQAHomePage = SampleAppPage.FillOutPrimaryContactFormFormAndSubmit(TheTestUser);
             Thread.Sleep(2000);
             Assert.IsFalse(!ultimateQAHomePage.IsVisible);
@@ -112,7 +120,7 @@ namespace SampleFramework1
         private void SetGenderTypes(Gender primaryContact, Gender energencyContact)
         {
             TheTestUser.GenderType = primaryContact;
-            EmergencyContactUser = EmergencyContactUser;
+            EmergencyContactUser.GenderType = energencyContact;
         }
     }
 }
